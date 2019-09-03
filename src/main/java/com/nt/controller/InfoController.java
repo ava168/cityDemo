@@ -19,7 +19,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.nt.pojo.Info;
 import com.nt.service.InfoService;
 import com.nt.utils.FcantUtils;
-
+/*
+ * 测试kkk
+ */
 @Controller
 @RequestMapping("/info")
 public class InfoController {
