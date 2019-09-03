@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nt.dao.InfoMapper">
+	<select id="selectCount" resultType="Integer">
+		select count(*) from tb_info where
+		<if test="type==0">info_content=#{mainWord}</if>
+		<if test="type==1">info_phone=#{mainWord}</if>
+		<if test="type==2">info_email=#{mainWord}</if>
+		<if test="type==3">info_id=#{mainWord}</if>
+		<if test="type==4">info_title=#{mainWord}</if>
+		<if test="type==5">info_linkman=#{mainWord}</if>
+
+	</select>
+	<select id="selectByMassage" resultType="com.nt.pojo.Info">
+		select * from tb_info
+		where info_content=#{mainWord} limit #{star},#{size}
+	</select>
+	<select id="selectByPhone" resultType="com.nt.pojo.Info">
+		select * from tb_info
+		where info_phone=#{mainWord} limit #{star},#{size}
+	</select>
+	<select id="selectByAddress" resultType="com.nt.pojo.Info">
+		select * from tb_info
+		where info_email=#{mainWord} limit #{star},#{size}
+	</select>
+	<select id="selectById" resultType="com.nt.pojo.Info">
+		select * from tb_info where
+		info_id=#{mainWord} limit #{star},#{size}
+	</select>
+	<select id="selectByTitle" resultType="com.nt.pojo.Info">
+		select * from tb_info
+		where info_title=#{mainWord} limit #{star},#{size}
+	</select>
+	<select id="selectByLinkman" resultType="com.nt.pojo.Info">
+		select * from tb_info
+		where info_linkman=#{mainWord} limit #{star},#{size}
+	</select>
+	<select id="getCount" resultType="Integer">
+		select count(*) from tb_info where
+		<if test="payforType==0||payforType==1">info_payfor=#{payforType} and</if>
+		<if test="stateType==0||stateType==1"> info_status=#{stateType} and</if>
+		info_type=#{infoType}
+
+
+	</select>
+	<insert id="save" parameterType="com.nt.pojo.Info">
+		insert into tb_info ( info_type,
+		info_title,info_data,
+		info_content, info_linkman, info_phone,
+		info_email)
+		values (#{info_type}, #{info_title}, #{info_data},
+		#{info_content},
+		#{info_linkman}, #{info_phone}, #{info_email})
+	</insert>
+	<select id="getPageList" resultType="com.nt.pojo.Info">
+		select * from tb_info where
+		<if test="payforType==0||payforType==1">info_payfor=#{payforType} and</if>
+		<if test="stateType==0||stateType==1"> info_status=#{stateType} and</if>
+		info_type=#{infoType} limit #{star},#{pageSize}
+	</select>
+	<select id="getCountById" resultType="Integer">
+		select count(*) from
+		tb_info where info_id=#{info_id}
+	</select>
+	<select id="getPageListById" resultType="com.nt.pojo.Info">
+		select * from tb_info
+		where info_id=#{info_id} limit #{star},#{pageSize}
+	</select>
+
+	<update id="pass">
+		update tb_info set info_status=1 where info_id=#{info_id}
+	</update>
+
+	<update id="payfor">
+		update tb_info set info_payfor=1 where info_id=#{info_id}
+	</update>
+	<select id="findInfo" resultType="Integer">
+		select count(*) from tb_info where info_type=#{type}
+	</select>
+	<select id="findInfo2" resultType="com.nt.pojo.Info">
+		select * from tb_info where
+		info_type=#{TYPE} limit #{star},#{pageSize}
+	</select>
+	<resultMap type="com.nt.pojo.Info" id="Allinfo">
+		<id property="info_id" column="info_id" />
+		<result property="info_type" column="type_intro" />
+		<result property="info_title" column="info_title" />
+		<result property="info_content" column="info_content" />
+		<result property="info_linkman" column="info_linkman" />
+		<result property="info_email" column="info_email" />
+		<result property="info_data" column="info_data" />
+		<result property="info_check" column="info_check" />
+		<result property="info_payfor" column="info_payfor" />
+		<result property="info_status" column="info_status" />
+
+
+	</resultMap>
+	<select id="selectAllInfo" resultMap="Allinfo">
+		select i.*,t.type_intro from tb_type t,tb_info i where t.type_sign =
+		i.info_type 
+	</select>
+	
+	
+	
+	
+	
+	
+	<select id="getInfoById" resultType="com.nt.pojo.Info">
+		select * from tb_info where info_id=#{id}
+	</select>
+	<resultMap type="com.nt.pojo.Info" id="infoMAP">
+		<id property="info_id" column="info_id" />
+		<result property="info_type" column="type_intro" />
+		<result property="info_title" column="info_title" />
+		<result property="info_content" column="info_content" />
+		<result property="info_linkman" column="info_linkman" />
+		<result property="info_email" column="info_email" />
+		<result property="info_data" column="info_data" />
+
+
+	</resultMap>
+	<select id="findAllType" resultMap="infoMAP">
+		select i.*,t.type_intro from tb_type t,tb_info i where t.type_sign =
+		i.info_type
+		<if test="type==0">and info_content=#{mainWord}</if>
+		<if test="type==1">and info_phone=#{mainWord}</if>
+		<if test="type==2">and info_email=#{mainWord}</if>
+		<if test="type==3">and info_id=#{mainWord}</if>
+		<if test="type==4">and info_title=#{mainWord}</if>
+		<if test="type==5">and info_linkman=#{mainWord}</if>
+		limit #{star},#{size}
+	</select>
+</mapper>

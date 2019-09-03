@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nt.dao.UserMapper">
+	<insert id="save" parameterType="com.nt.pojo.User">
+		insert into tb_user(user_name,user_password)values(#{user_name},#{user_password})
+	</insert>
+	<select id="select" parameterType="com.nt.pojo.User" resultType="com.nt.pojo.User">
+		select * from tb_user where user_name=#{user_name} and user_password=#{user_password}
+	</select>
+	<select id="selectByUserName" parameterType="java.lang.String" resultType="com.nt.pojo.User">
+		select * from tb_user where user_name=#{user_name}
+	</select>
+	<select id="selectAllUser"  resultType="com.nt.pojo.User">
+		select * from tb_user
+	</select>
+	<select id="selectAllUser1"  resultType="com.nt.pojo.User">
+		select * from tb_user where user_id=#{user_id}
+	</select>
+	<select id="selectUserPage"  resultType="com.nt.pojo.User">
+		select * from tb_user <if test="user_id!=0">where user_id=#{user_id}</if>  limit #{star},#{pageSize}
+	</select>
+	<select id="userCount"  resultType="java.lang.Integer">
+		select count(*) from tb_user
+		<if test="user_id!=0">where user_id=#{user_id}</if>
+	</select>
+	<delete id="deleteUserById">
+		delete from tb_user where user_id=#{user_id}
+	</delete>
+	<update id="updateUser" parameterType="com.nt.pojo.User">
+	   update tb_user set user_name=#{user_name},user_password=#{user_password} where user_id=#{user_id}
+	</update>
+</mapper>
